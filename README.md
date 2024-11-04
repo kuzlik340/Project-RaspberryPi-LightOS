@@ -1,7 +1,7 @@
 # Sonima OS
 
 # Introduction
-Sonima OS is just a small Opertaing System that is currently updating. It won`t replace OSes on Linux kernel but still will be better than Windows. The main idea of project is to create an operational system and test it on the Raspberry PI 4B.
+Sonima OS is just a small Opertaing System that is currently updating. It won't replace OSes on Linux kernel but still will be better than Windows. The main idea of project is to create an Operational System and test it on the Raspberry PI 4B.
 
 # Modules
 Sonima OS has this modules:
@@ -10,6 +10,7 @@ Sonima OS has this modules:
 3. Memory manager (will be created in newer versions)
 4. File system (will be created in newer versions)
 5. Processes manager (will be created in newer versions)
+
 This system has basic set of modules that every OS should have. It will be updating and the functionality of system will grow.
 
 # How to run OS
