@@ -1,1 +1,2 @@
-OS project
+Sonima OS
+
