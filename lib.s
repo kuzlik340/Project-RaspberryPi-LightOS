@@ -5,6 +5,13 @@
 .global memcpy_end
 .global memmove
 .global memcmp
+.global get_el
+
+get_el:
+    mrs x0, currentel
+    lsr x0, x0, #2     /* shifting the value in x0 by two bits */
+    ret
+
 
 /* same as for(volatile int i = x0; i > 0; i--); */
 delay:
@@ -85,6 +92,6 @@ copy:
     subs x2, x2, #1     /* decrement size */
     bne copy            /* if size not 0 go to copy again */
 
-
 memcpy_end:
     ret
+
