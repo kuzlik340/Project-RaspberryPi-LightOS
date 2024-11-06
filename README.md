@@ -24,4 +24,4 @@ dtoverlay=disable-bt
 ```
 
 # Current stage
-Currently working with basic functions for the OS
+Currently working with handler for exceptions.
