@@ -8,18 +8,16 @@ start:
     /* apply bit mask, we have to check only last
      * to see on what core we are */
     and x0, x0, #3
-    /* if it is core 0 then start kernel */
     cmp x0, #0
-    beq kernel_entry
+    beq kernel_entry    /* if it is core 0 then start kernel */
 
 /* if other core then core 0 just put core into sleep */
 end:
     b end
 
 kernel_entry:
-    /* check current exception level */
-    mrs currentel
-    lsr x0, x0, #2
+    mrs x0, currentel   /* check current exception level */
+    lsr x0, x0, #2      
     /* if exception level is not 2 then block booting */
     cmp x0, #2
     bne end
@@ -43,6 +41,16 @@ kernel_entry:
 el1_entry:    
     /* stack pointer to address 80000 */
     mov sp, #0x80000
+    
+    /* init bss segment with 0's */
+    ldr x0, =bss_start
+    ldr x1, =bss_end
+    sub x2, x1, x0
+    mov x1, #0
+    bl memset
+
+    ldr x0, =vector_table
+    msr vbar_el1, x0
     /* call Kernel, put seatbelts, we are starting */
     bl KMain
     b end
