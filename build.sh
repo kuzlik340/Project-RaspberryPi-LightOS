@@ -1,7 +1,7 @@
 #!/bin/bash
-COMPILER_PATH="/Users/timofejkuzin/compiler_for_arch/aarch64-unknown-linux-gnu/bin/aarch64-unknown-linux-gnu-gcc"
-LINKER_PATH="/Users/timofejkuzin/compiler_for_arch/aarch64-unknown-linux-gnu/bin/aarch64-unknown-linux-gnu-ld"
-OBJCOPY_PATH="/Users/timofejkuzin/compiler_for_arch/aarch64-unknown-linux-gnu/bin/aarch64-unknown-linux-gnu-objcopy"
+COMPILER_PATH="compiler_for_arch/aarch64-unknown-linux-gnu/bin/aarch64-unknown-linux-gnu-gcc"
+LINKER_PATH="compiler_for_arch/aarch64-unknown-linux-gnu/bin/aarch64-unknown-linux-gnu-ld"
+OBJCOPY_PATH="compiler_for_arch/aarch64-unknown-linux-gnu/bin/aarch64-unknown-linux-gnu-objcopy"
 
 $COMPILER_PATH -x assembler-with-cpp -c boot.s -o boot.o
 $COMPILER_PATH -x assembler-with-cpp -c lib.s -o liba.o
