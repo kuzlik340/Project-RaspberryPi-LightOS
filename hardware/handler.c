@@ -2,6 +2,7 @@
 #include "print.h"
 #include "lib.h"
 #include "irq.h"
+#include "uart.h"
 
 static uint64_t ticks = 0;
 
@@ -14,12 +15,17 @@ void init_interrupt_controller(void)
     out_word(ICC_PR, 0xff);
     /* set the highest priority to interrupts from timer */ 
     out_word(ICD_PR + 64, 0);
+    /* set the highest priority to interrupts from uart */
+    out_word(ICD_PR + 38*4, 0);
     /* set the interface of processor as core 0 since it is the only working core */
     out_word(ICD_PTR + 64, 1);
+    out_word(ICD_PTR + 38*4, 0x100);
     /* set the sensitivity as edge-triggered (0b10) */
     out_word(ICD_ICFGR + 16, 2);
+    out_word(ICD_ICFGR + 36, (1<<19));
     /* enabling interrupts from ID 64 */
     out_word(ICD_ISENABLE + 8, 1);
+    out_word(ICD_ISENABLE + 16, (1 << 25));
     /* enable distributor and CPU interface */
     out_word(DIST, 1);
     out_word(CPU_INTERFACE, 1);
@@ -62,6 +68,9 @@ void handler(uint64_t numid, uint64_t esr, uint64_t elr)
             irq_id = get_irq_num();
             if (irq_id == 64){
                 timer_interrupt_handler();
+            }
+            else if (irq_id == 96 + 57){
+                uart_handler();
             }
             else{
                 printk("uknown interrupt request \r\n");

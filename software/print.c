@@ -1,6 +1,6 @@
 #include "stdint.h"
 #include "stdarg.h"
-#include "uart.h"
+#include "hardware/uart.h"
 
 static int read_string(char *buffer, int position, const char *string)
 {

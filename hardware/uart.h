@@ -10,10 +10,14 @@
 #define UART0_FBRD      IO_BASE_ADDR + 0x1028
 #define UART0_IBRD      IO_BASE_ADDR + 0x1024
 #define UART0_IMSC      IO_BASE_ADDR + 0x1038
+#define UART0_MIS       IO_BASE_ADDR + 0x1040
+#define UART0_ICR       IO_BASE_ADDR + 0x1044
 
 unsigned char read_char(void);
 void write_char(unsigned char c);
 void write_string(const char *string);
 void init_uart(void);
+void uart_handler(void);
 
 #endif
+
