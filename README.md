@@ -24,4 +24,4 @@ dtoverlay=disable-bt
 ```
 
 # Current stage
-Currently working with handler for exceptions.
+Currently working with memory paging.
