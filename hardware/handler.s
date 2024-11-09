@@ -40,7 +40,7 @@ lower_el_aarch64_sync:      /* for sys calls and memory errors */
     b sync_handler
 .balign 0x80
 lower_el_aarch64_irq:       /* for interrupts */
-    b error
+    b irq_handler
 .balign 0x80
 lower_el_aarch64_fiq:       /* for high ptiority interrupts (not used) */
     b error
@@ -52,7 +52,7 @@ lower_el_aarch64_serror:    /* for system error */
 /* this part won't be used, since we are working only with aarch64 */
 .balign 0x80
 lower_el_aarch32_sync:      /* for sys calls and memory errors */
-    b sync_handler
+    b error
 .balign 0x80
 lower_el_aarch32_irq:       /* for interrupts */
     b error
@@ -65,7 +65,7 @@ lower_el_aarch32_serror:    /* for system error */
 
 
 sync_handler:
-    sub sp, sp, #(32 * 8)   /* reserving space in stack to save 32 regosters */
+    sub sp, sp, #(32 * 8)   /* reserving space in stack to save 32 registers */
     stp x0, x1, [sp]
     stp x2, x3, [sp, #(16 * 1)]
     stp x4, x5, [sp, #(16 * 2)]
@@ -104,7 +104,7 @@ sync_handler:
     ldp x26, x27, [sp, #(16 * 13)]
     ldp x28, x29, [sp, #(16 * 14)]
     ldr x30, [sp, #(16 * 15)]
-    add sp, sp, #(32 * 8)   /* deallocating space in stack to save 32 regosters */
+    add sp, sp, #(32 * 8)   /* deallocating space in stack to save 32 registers */
 
 
     eret                    /* use eret to return to instruction that was after 
@@ -115,7 +115,7 @@ sync_handler:
 
 
 error:
-    sub sp, sp, #(32 * 8)   /* reserving space in stack to save 32 regosters */
+    sub sp, sp, #(32 * 8)   /* reserving space in stack to save 32 registers */
     stp x0, x1, [sp]
     stp x2, x3, [sp, #(16 * 1)]
     stp x4, x5, [sp, #(16 * 2)]
@@ -153,13 +153,13 @@ error:
     ldp x26, x27, [x29, #(16 * 13)]
     ldp x28, x29, [x29, #(16 * 14)]
     ldr x30, [x29, #(16 * 15)]
-    add sp, sp, #(32 * 8)   /* deallocating space in stack to save 32 regosters */
+    add sp, sp, #(32 * 8)   /* deallocating space in stack to save 32 registers */
     mov x29, xzr
 
     eret
 
 irq_handler:
-    sub sp, sp, #(32 * 8)   /* reserving space in stack to save 32 regosters */
+    sub sp, sp, #(32 * 8)   /* reserving space in stack to save 32 registers */
     stp x0, x1, [sp]
     stp x2, x3, [sp, #(16 * 1)]
     stp x4, x5, [sp, #(16 * 2)]
@@ -198,7 +198,7 @@ irq_handler:
     ldp x26, x27, [sp, #(16 * 13)]
     ldp x28, x29, [sp, #(16 * 14)]
     ldr x30, [sp, #(16 * 15)]
-    add sp, sp, #(32 * 8)   /* deallocating space in stack to save 32 regosters */
+    add sp, sp, #(32 * 8)   /* deallocating space in stack to save 32 registers */
 
 
     eret                    /* use eret to return to instruction that was after 

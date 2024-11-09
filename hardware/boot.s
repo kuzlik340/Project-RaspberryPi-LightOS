@@ -53,6 +53,15 @@ el1_entry:
     msr vbar_el1, x0
     /* call Kernel, put seatbelts, we are starting */
     bl KMain
+    mov x0, #0b1111000000
+    msr spsr_el1, x0
+    adr x0, el0_entry
+    msr elr_el1, x0
+    eret
+
+
+el0_entry:
+    wfi
     b end
     
 
