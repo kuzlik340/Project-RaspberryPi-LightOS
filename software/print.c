@@ -62,6 +62,7 @@ static int hex_to_string(char *buffer, int position, uint64_t digits)
     return size + 1;
 }
 
+/* function to write onto console */
 static void write_console(const char *buffer, int size)
 {
     for (int i = 0; i < size; i++) {
@@ -71,16 +72,18 @@ static void write_console(const char *buffer, int size)
 
 int printk(const char *format, ...)
 {
-    char buffer[1024];
-    int buffer_size = 0;
-    int64_t integer = 0;
-    char *string = 0;
-    va_list args;
-    va_start(args, format);
+    char buffer[1024]; /* buffer for the info that we want to display */
+    int buffer_size = 0; 
+    int64_t integer = 0; /* an integer that we want to display */
+    char *string = 0; /* pointer to string constant that was passed to this function */
+    va_list args; /* list of arguments that were passed to this function */
+    va_start(args, format);  /* initialize list of argument by 'va_start' macros */
     for(int i = 0; format[i] != '\0'; i++){
-        if(format[i] != '%'){
+        /* if it is just straight text */
+        if(format[i] != '%'){ 
             buffer[buffer_size++] = format[i];
         }
+        /* if we have some variable or constant that we have to print */
         else{
             switch(format[++i]){
                 case 'x':
@@ -100,6 +103,7 @@ int printk(const char *format, ...)
                     buffer_size += read_string(buffer, buffer_size, string);
                     break;
                 default:
+                    /* if we have a '%' without anything after it*/
                     buffer[buffer_size++] = '%';
                     i--;         
             }
