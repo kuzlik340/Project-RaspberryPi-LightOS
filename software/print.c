@@ -9,7 +9,7 @@
  */
 #include "stdint.h"
 #include "stdarg.h"
-#include "hardware_bound/uart.h"
+#include "../hardware_bound/uart.h"
 
 
 /* Function to read a string into a buffer at a given position 
