@@ -24,7 +24,7 @@
 .global enable_mmu
 .global setup_vm
 
-emable_mmu:
+enable_mmu:
     adr x0, pgd_ttbr1
     msr ttbr1_el1, x0
 

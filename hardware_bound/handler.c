@@ -7,7 +7,7 @@
  * T.Kuz    11.2024
  */
 #include "stdint.h"
-#include "print.h"
+#include "../software/print.h"
 #include "lib.h"
 #include "irq.h"
 #include "uart.h"

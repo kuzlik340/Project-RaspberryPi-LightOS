@@ -5,11 +5,11 @@
  *
  * T.Kuz    11.2024
  */
-#include "uart.h"
-#include "print.h"
-#include "debug.h"
-#include "lib.h"
-#include "handler.h"
+#include "../hardware_bound/uart.h"
+#include "../software/print.h"
+#include "../software/debug.h"
+#include "../hardware_bound/lib.h"
+#include "../hardware_bound/handler.h"
 
 void KMain(void)
 {
