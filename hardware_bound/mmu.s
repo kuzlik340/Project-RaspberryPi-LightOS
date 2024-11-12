@@ -34,12 +34,19 @@ emable_mmu:
     adr x0, pgd_ttbr0
     msr ttbr0_el1, x0
 
+    /* by this block MAIR_ATTR we are setting that we have two types of memory
+     * if there will be a 0 at the end of PMD entity then it is device memory (peripheral area)
+     * if there will be a 1 at the end of PMD entity then it is normal memory*/
     ldr x0, =MAIR_ATTR
     msr mair_el1, x0
 
+    /* Setting parameters to the control block. Basic size of page is set to 4 KB 
+     * but in the project we are using 2MB pages. This basic size do not blocking us to create 
+     * bigger memory pages*/
     ldr x0, =TCR_VALUE
     msr tcr_el1, x0
 
+    /* enabling MMU */
     mrs x0, sctlr_el1
     orr x0, x0, #1
     msr sctlr_el1, x0
@@ -62,7 +69,7 @@ setup_kvm:
     str x1, [x0]
 
     /* setting a register 2 as border for addresses. 
-     * 0x34000000 is a memory end here and we are creating 
+     * 0x34000000 is a 'memory end' here and we are creating 
      * a memory for kernel and file system */
     mov x2, #0x34000000
     adr x1, pmd_ttbr1
@@ -70,8 +77,8 @@ setup_kvm:
     mov x0, #(1 << 10 | 1 << 2 | 1 << 0)
 
 loop1:
-    /* setting pages in PMD table until we address will reach
-     * 0x34000000 physical address */
+    /* setting pages in PMD table until the address 
+     * will reach 0x34000000 address */
     str x0, [x1], #8
     /* we are adding the page_size here without any trouble 
      * and flags won't be overwritten since page_size is 2 mb 
@@ -80,11 +87,18 @@ loop1:
     cmp x0, x2
     blo loop1
 
+
+    /* in this part we are creating a new element in PUD table for 
+     * the peripheral area. Since the peripheral area on RPI 4B starts 
+     * from 0xF0000000 (~3.75 GB). We have to set a new element in PUD with offset 24 since
+     * we will pass 0(1st GB), 1st(2nd GB) and 2nd(3rd GB) elements. Then we will create new
+     * element at the 24 byte offset from start of PUD_TTBR1*/
+
     adr x0, pud_ttbr1
     add x0, x0, #24
-    /* store the link to pmd_3 which starts from 0xc0000000 
-     * and ends with 0x100000000 */
+    /* store the address of PMD3 table */
     adr x1, pmd_3_ttbr1
+    /* set paramenters as this elemnt of PUD contains a pointer to PMD */
     orr x1, x1, #3
     str x1, [x0]
 
@@ -94,15 +108,12 @@ loop1:
     adr x3, pmd_3_ttbr1
     /* putting an offset of peripheral area start in x4 */
     mov x4, #(0xf0000000 - 0xc0000000)
-    /* finding the corresponding index of last page (2^21 is 2 MB)
-     * do not forget to shift left for 3 bits since each entity in PMD is 8 bytes */
+    /* by this block of code we will find the offset from pmd3_ttb1[0] to pmd3_ttbr1[n]
+     * where n is pages that are between 0xC0000000 and 0xF0000000. So we can do it by divising
+     * an offset at x4 by 2^21 and then we have to multiply it by 2^3 because the value in x1 will point to
+     * pmd3_ttbr[n] and all of the elemnts in pmd3_ttbr have a size of 8 bytes. */
     lsr x1, x4, #(21 - 3)
     add x1, x1, x3
-/* The register x1 contains the offset for the first entry in pmd_3_ttbr1, shifted left by 3 bits. 
- * This shift is necessary to correctly address the pages, as each entry in pmd3 occupies 8 bytes.
- * Therefore, if x1 points to the first slot in pmd3, incrementing it by 8 will point to the location 
- * for the next entry. Incrementing by 8 bytes effectively advances to the next page, so we needed 
- * to ensure that each 8-byte increase properly aligns with the page boundary. */
 
     /* setting type as device memory */
     orr x0, x0, #1
@@ -116,7 +127,7 @@ loop2:
     blo loop2
 
 
-
+/* function to setup user virtual memory */
 setup_uvm:
     adr x0, pgd_ttbr0
     adr x1, pud_ttbr0
