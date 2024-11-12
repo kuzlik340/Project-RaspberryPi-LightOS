@@ -1,3 +1,12 @@
+/*
+ * debug.c   v1.0
+ *
+ * This module contains one function to print the error 
+ * message when assertion was failed. Used in this project 
+ * for debugging while writing new modules
+ *
+ * T.Kuz    11.2024
+ */
 #include "debug.h"
 #include "print.h"
 

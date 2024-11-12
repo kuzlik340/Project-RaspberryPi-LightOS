@@ -1,3 +1,11 @@
+/*
+ * lib.h   v1.0
+ *
+ * This module contains all basic functions to work with memory, 
+ * getting the current Exception Level and a function for delay.
+ *
+ * T.Kuz    11.2024
+ */
 #ifndef _LIB_H
 #define _LIB_H
 

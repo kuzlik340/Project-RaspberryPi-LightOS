@@ -1,5 +1,11 @@
-/* This module is for debugging OS while creating, 
- * will be turned off in version 0.1*/
+/*
+ * debug.c   v1.0
+ *
+ * This module contains one macros to check some condition.
+ * For example ASSERT(b != NULL).
+ *
+ * T.Kuz    11.2024
+ */
 
 
 #ifndef _DEBUG_H

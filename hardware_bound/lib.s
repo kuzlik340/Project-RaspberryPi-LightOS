@@ -1,3 +1,11 @@
+/*
+ * lib.s   v1.0
+ *
+ * This module contains all basic functions to work with memory, 
+ * getting the current Exception Level and a function for delay.
+ *
+ * T.Kuz    11.2024
+ */
 .global delay
 .global out_word
 .global in_word
