@@ -1,10 +1,12 @@
 # Sonima OS
+```
  _____             _                   _____ _____ 
 /  ___|           (_)                 |  _  /  ___|
 \ `--.  ___  _ __  _ _ __ ___   __ _  | | | \ `--. 
  `--. \/ _ \| '_ \| | '_ ` _ \ / _` | | | | |`--. \
 /\__/ / (_) | | | | | | | | | | (_| | \ \_/ /\__/ /
 \____/ \___/|_| |_|_|_| |_| |_|\__,_|  \___/\____/ 
+```
 
 # Introduction
 Sonima OS is just a small Opertaing System that is currently updating. It won't replace OSes on Linux kernel but still will be better than Windows. The main idea of project is to create an Operational System and test it on the Raspberry PI 4B.
