@@ -1,0 +1,6 @@
+{
+    "files.associations": {
+        "handler.h": "c",
+        "print.h": "c"
+    }
+}
